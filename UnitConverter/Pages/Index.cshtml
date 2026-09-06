@@ -1,0 +1,56 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Home page";
+}
+
+<section class="max-w-xl border border-gray-200 shadow-2xl mx-auto mt-10 bg-gray-100 py-4 px-8 opacity-90">
+    <h1 class="font-bold text-3xl mt-4">Unit Converter</h1>
+    <ul class="flex items-center gap-3 mt-5 text-xl">
+        <li><button data-category="Length" id="btn-length" type="button"
+                        class="unit-btn selected-unit-of-measurement px-4 py-2 cursor-pointer transition-color">Length</button>
+        </li>
+        <li><button data-category="Weight" id="btn-weight" type="button"
+                        class="unit-btn px-4 py-2 cursor-pointer transition-color">Weight</button></li>
+            <li><button data-category="Temperature" id="btn-temp" type="button"
+                            class="unit-btn px-4 py-2 cursor-pointer transition-color">Temperature</button></li>
+            </ul>
+
+            @if (Model.Result is null)
+            {
+                <div id="Converter">
+                    <form action="" method="post" class="mt-6 mb-12">
+                        <input id="CategoryInput" type="hidden" asp-for="Category">
+                        <div class="form-group mb-8">
+                            <label asp-for="InputValue" class="block text-lg font-semibold">Enter the value to convert</label>
+                            <input id="InputValue" asp-for="InputValue" type="number" step="any"
+                                   class="bg-white border border-gray-200 block mt-2 w-sm h-8 outline-gray-400">
+                            <span asp-validation-for="InputValue" class="text-red-600"></span>
+                        </div>
+                        <div class="form-group mb-8">
+                            <select asp-for="FromUnit" asp-items="Model.FromUnitOptions"
+                                    class="bg-white py-2 px-4 outline-0"></select>
+                            <span asp-validation-for="FromUnit"></span>
+                        </div>
+                        <div class="form-group mb-12">
+                            <select asp-for="ToUnit" asp-items="Model.ToUnitOptions" class="bg-white py-2 px-4 outline-0"></select>
+                            <span asp-validation-for="ToUnit"></span>
+
+                        </div>
+                        <input type="submit" value="Convert"
+                               class="mb-12 text-white bg-blue-600 py-3 px-9 rounded-lg text-xl cursor-pointer transition hover:bg-blue-800">
+                    </form>
+                </div>
+            }
+            else
+            {
+                <p class="text-2xl mt-10 font-bold">Result Of Your Calculation</p>
+                <p class="text-3xl mt-4">@Model.InputValue @Model.FromUnit = @Model.Result @Model.ToUnit</p>
+                <a class="mt-6 mb-12 inline-block text-white bg-blue-600 py-3 px-9 rounded-lg text-xl cursor-pointer transition hover:bg-blue-800"
+                   asp-page="Index">Reset</a>
+            }
+        </section>
+
+        @section Scripts {
+            <script src="~/js/UnitConverterHandler.js" asp-append-version="true"></script>
+        }
